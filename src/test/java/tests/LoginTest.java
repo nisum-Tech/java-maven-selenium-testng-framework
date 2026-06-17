@@ -24,4 +24,14 @@ public class LoginTest extends BaseTest {
 
         Assert.assertTrue(driver.getCurrentUrl().contains("login"));
     }
+
+    @Test
+    public void verifyElementalSeleniumNewTabHeading() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login(ConfigReader.get("username"), ConfigReader.get("password"));
+
+        HomePage homePage = new HomePage(driver);
+        String newTabTitle = homePage.clickElementalSeleniumLinkAndGetNewTabTitle();
+        Assert.assertEquals(newTabTitle, "Elemental Selenium");
+    }
 }
