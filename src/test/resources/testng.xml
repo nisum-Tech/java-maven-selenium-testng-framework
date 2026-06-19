@@ -5,4 +5,10 @@
             <class name="tests.LoginTest"/>
         </classes>
     </test>
+    <test verbose="2" preserve-order="true" name="SearchTest">
+        <classes>
+            <class name="tests.SearchTest">
+            </class>
+        </classes>
+    </test>
 </suite>
