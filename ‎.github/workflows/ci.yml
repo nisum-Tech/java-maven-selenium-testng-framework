@@ -20,7 +20,7 @@ on:
 jobs:
   # Job key is the configured action name so provisioning stays idempotent
   # (WorkflowYamlMergeService detects an existing qbric job by this key).
-  __ACTION_NAME__:
+  qbric-actions:
     runs-on: ubuntu-latest
 
     steps:
