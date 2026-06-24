@@ -1,0 +1,61 @@
+name: Qbric Pipeline
+
+# Provisioned by qbric. Runs the repo's tests on every PR (and on pushes to the
+# main branches) and reports the pass/fail result back to the Qbric Test Runs
+# page. Because it triggers on pull_request, it also exercises the PRs that
+# Qbric's code generation opens — which is how a generated PR's test result
+# shows up on the matching "Generation Complete" summary.
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - master
+  push:
+    branches:
+      - main
+      - develop
+      - master
+
+jobs:
+  # Job key is the configured action name so provisioning stays idempotent
+  # (WorkflowYamlMergeService detects an existing qbric job by this key).
+  __ACTION_NAME__:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Run the repo's tests so the Qbric action can parse the reports
+      # (Surefire/Failsafe/Gradle JUnit XML or Cucumber JSON) and report
+      # pass/fail. Each step is guarded by build-file detection so the same
+      # template works for Maven, Gradle, or npm repos with no edits.
+      # continue-on-error keeps reporting even when tests fail.
+      - name: Run tests (Maven)
+        if: hashFiles('**/pom.xml') != ''
+        run: mvn -B test
+        continue-on-error: true
+
+      - name: Run tests (Gradle)
+        if: hashFiles('**/build.gradle', '**/build.gradle.kts') != ''
+        run: |
+          if [ -f ./gradlew ]; then chmod +x ./gradlew && ./gradlew test; else gradle test; fi
+        continue-on-error: true
+
+      - name: Run tests (npm)
+        if: hashFiles('**/package.json') != ''
+        run: npm ci && npm test --if-present
+        continue-on-error: true
+
+      - name: Qbric — report test runs
+        uses: __ACTION_ORG__/__ACTION_NAME__@__ACTION_VERSION__
+        with:
+          qbric-api-url: ${{ vars.QBRIC_API_URL }}
+          tenant-id: ${{ vars.QBRIC_TENANT_ID }}
+          qbric-scan-token: ${{ secrets.QBRIC_SCAN_TOKEN }}
+          # This per-repo workflow only reports test runs. It deliberately does
+          # NOT trigger code generation (generate: false): codegen opens a PR,
+          # which would re-trigger this workflow and loop. Code generation is
+          # kicked off from the Qbric app / a dedicated workflow instead.
+          generate: false
+          report-test-runs: true
