@@ -16,4 +16,13 @@ public class LoginTest extends BaseTest {
         HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isHomePageDisplayed());
     }
+
+    @Test
+    public void invalidLoginTest() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login(ConfigReader.get("invalid_username"), ConfigReader.get("invalid_password"));
+
+        HomePage homePage = new HomePage(driver);
+        Assert.assertFalse(homePage.isHomePageDisplayed());
+    }
 }
