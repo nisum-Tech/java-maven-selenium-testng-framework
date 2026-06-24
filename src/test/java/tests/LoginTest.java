@@ -24,4 +24,12 @@ public class LoginTest extends BaseTest {
 
         Assert.assertTrue(driver.getCurrentUrl().contains("login"));
     }
+
+    @Test
+    public void testLoginOnGoogleDotCom() {
+        driver.get("https://www.google.com");
+        Assert.assertTrue(driver.getCurrentUrl().contains("google"), "Failed to navigate to Google.");
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login("testuser", "testpass");
+    }
 }
