@@ -48,7 +48,7 @@ jobs:
         continue-on-error: true
 
       - name: Qbric — report test runs
-        uses: __ACTION_ORG__/__ACTION_NAME__@__ACTION_VERSION__
+        uses: nisum-Tech/qbric-actions@v1
         with:
           qbric-api-url: ${{ vars.QBRIC_API_URL }}
           tenant-id: ${{ vars.QBRIC_TENANT_ID }}
