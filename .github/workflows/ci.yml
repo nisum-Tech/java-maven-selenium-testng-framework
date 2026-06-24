@@ -4,7 +4,7 @@ name: Qbric Pipeline
 # main branches) and reports the pass/fail result back to the Qbric Test Runs
 # page. Because it triggers on pull_request, it also exercises the PRs that
 # Qbric's code generation opens — which is how a generated PR's test result
-# shows up on the matching "Generation Complete" summary.
+# shows up on the matching "Generation Complete" summary. testing
 on:
   pull_request:
     branches:
