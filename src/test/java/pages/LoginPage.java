@@ -15,6 +15,9 @@ public class LoginPage extends BasePage {
     @FindBy(css = "button[type='submit']")
     private WebElement loginButton;
 
+    @FindBy(id = "flash")
+    private WebElement errorMessage;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -23,5 +26,13 @@ public class LoginPage extends BasePage {
         username.sendKeys(user);
         password.sendKeys(pass);
         loginButton.click();
+    }
+
+    public String getErrorMessageText() {
+        return errorMessage.getText();
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        return errorMessage.isDisplayed();
     }
 }

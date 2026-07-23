@@ -1,5 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Request body for POST /login and POST /register on reqres.in.
  */
@@ -10,7 +13,8 @@ public class LoginRequest {
 
     public LoginRequest() {}
 
-    public LoginRequest(String email, String password) {
+    @JsonCreator
+    public LoginRequest(@JsonProperty("email") String email, @JsonProperty("password") String password) {
         this.email    = email;
         this.password = password;
     }
