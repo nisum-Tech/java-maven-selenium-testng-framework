@@ -13,4 +13,10 @@
         </classes>
     </test>
 
+    <test name="Search Test">
+        <classes>
+            <class name="tests.SearchTest"/>
+        </classes>
+    </test>
+
 </suite>
