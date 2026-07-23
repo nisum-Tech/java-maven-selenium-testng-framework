@@ -16,4 +16,12 @@ public class LoginTest extends BaseTest {
         HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isHomePageDisplayed());
     }
+
+    @Test
+    public void invalidLoginTest() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login("invaliduser", "invalidpass");
+        Assert.assertTrue(loginPage.isErrorMessageDisplayed(), "Error message should be displayed after invalid login.");
+        Assert.assertTrue(loginPage.getErrorMessageText().contains("Your username is invalid!"), "Error message content is not as expected.");
+    }
 }
